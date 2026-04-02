@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: pages
+    // Document ID: pageId
+    // Fields: title, slug, sections, updatedAt
+    //
+    // Collection: portfolio
+    // Document ID: itemId
+    // Fields: title, slug, excerpt, body, coverImage, galleryImages, clientName, industry, tags, techStack, liveUrl, githubUrl, featured, published, createdAt, updatedAt
+    //
+    // Collection: stats
+    // Document ID: statId
+    // Fields: label, value, suffix, order
+    //
+    // Collection: settings
+    // Document ID: main
+    // Fields: companyName, ownerName, email, phone, whatsapp, facebook, linkedin, instagram, address, footerText
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "wielstragroup@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isPublished(data) {
+      return !('published' in data) || data.published == true;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /pages/{pageId} {
+      allow read: if true; // Pages are public
+      allow write: if isAdmin();
+    }
+
+    match /portfolio/{itemId} {
+      allow read: if isPublished(resource.data) || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /stats/{statId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if request.auth.uid == userId || isAdmin();
+      allow write: if isAdmin();
+    }
+  }
+}

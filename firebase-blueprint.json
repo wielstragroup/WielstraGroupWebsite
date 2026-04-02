@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "Page": {
+      "title": "Page",
+      "description": "Static page content",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "sections": { "type": "array" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug"]
+    },
+    "PortfolioItem": {
+      "title": "Portfolio Item",
+      "description": "A project in the portfolio",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "body": { "type": "string" },
+        "coverImage": { "type": "string" },
+        "galleryImages": { "type": "array" },
+        "clientName": { "type": "string" },
+        "industry": { "type": "string" },
+        "tags": { "type": "array" },
+        "techStack": { "type": "array" },
+        "liveUrl": { "type": "string" },
+        "githubUrl": { "type": "string" },
+        "isDemo": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "excerpt", "body", "coverImage"]
+    },
+    "Stat": {
+      "title": "Stat",
+      "description": "Key metric for the home page",
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "value": { "type": "string" },
+        "suffix": { "type": "string" },
+        "order": { "type": "integer" }
+      },
+      "required": ["label", "value", "order"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global site settings",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "facebook": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "instagram": { "type": "string" },
+        "address": { "type": "string" },
+        "footerText": { "type": "string" }
+      },
+      "required": ["companyName", "ownerName", "email", "phone", "whatsapp"]
+    }
+  },
+  "firestore": {
+    "/pages/{pageId}": {
+      "schema": "Page",
+      "description": "Collection of static pages"
+    },
+    "/portfolio/{itemId}": {
+      "schema": "PortfolioItem",
+      "description": "Collection of portfolio projects"
+    },
+    "/stats/{statId}": {
+      "schema": "Stat",
+      "description": "Collection of home page stats"
+    },
+    "/settings/main": {
+      "schema": "Settings",
+      "description": "Global site settings"
+    }
+  }
+}
