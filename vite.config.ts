@@ -6,9 +6,9 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   // In development always use '/' for convenience.
-  // In production default to '/WielstraGroup/' (GitHub Pages project sub-path).
-  // Override by setting VITE_BASE_PATH=/ when deploying to Vercel or a custom domain.
-  const base = mode === 'production' ? (env.VITE_BASE_PATH || '/WielstraGroupWebsite/') : '/';
+  // In production default to '/' (works for Vercel, custom domains, and AI Studio).
+  // GitHub Pages workflow sets VITE_BASE_PATH=/WielstraGroupWebsite/ explicitly.
+  const base = mode === 'production' ? (env.VITE_BASE_PATH || '/') : '/';
   return {
     base,
     plugins: [react(), tailwindcss()],
