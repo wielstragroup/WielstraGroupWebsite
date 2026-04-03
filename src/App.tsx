@@ -15,8 +15,9 @@ import { AdminSettings } from './pages/admin/Settings';
 import { AdminLogin } from './pages/admin/Login';
 
 export default function App() {
-  // GitHub Pages base path support
-  const basename = '/WielstraGroup';
+  // Derive basename from Vite's BASE_URL so it works for both
+  // GitHub Pages (/WielstraGroup) and Vercel / custom domains (/).
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   return (
     <HelmetProvider>
