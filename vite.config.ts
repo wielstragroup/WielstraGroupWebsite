@@ -8,7 +8,7 @@ export default defineConfig(({mode}) => {
   // In development always use '/' for convenience.
   // In production default to '/WielstraGroup/' (GitHub Pages project sub-path).
   // Override by setting VITE_BASE_PATH=/ when deploying to Vercel or a custom domain.
-  const base = mode === 'production' ? (env.VITE_BASE_PATH || '/WielstraGroup/') : '/';
+  const base = mode === 'production' ? (env.VITE_BASE_PATH || '/WielstraGroupWebsite/') : '/';
   return {
     base,
     plugins: [react(), tailwindcss()],
